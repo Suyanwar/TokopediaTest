@@ -1,4 +1,4 @@
-import { FETCH_DATA, FETCH_DATA_SUCCESS, FETCH_DATA_ERROR, API_KEY } from '../utils/constants';
+import { FETCH_DATA, API_KEY, FETCH_DATA_DETAIL } from '../utils/constants';
 
 export const fetchSources = () => {
     return {
@@ -8,5 +8,17 @@ export const fetchSources = () => {
                 url: '/sources?apiKey=' + API_KEY
             }
         }
+    };
+}
+
+
+export const fetchSourceDetail = (q, source) => {
+    return {
+      type: FETCH_DATA_DETAIL,
+      payload: {
+        request: {
+          url: '/everything?q=' + q + '&sources=' + source + '&apiKey=' + API_KEY
+        }
+      }
     };
 }
