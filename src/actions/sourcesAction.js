@@ -1,4 +1,10 @@
-import { FETCH_DATA, API_KEY, FETCH_DATA_DETAIL } from '../utils/constants';
+import { 
+    FETCH_DATA, 
+    API_KEY, 
+    FETCH_DATA_DETAIL,
+    SET_ID_SOURCE,
+    SET_URL_ARTICLE
+} from '../utils/constants';
 
 export const fetchSources = () => {
     return {
@@ -20,5 +26,21 @@ export const fetchSourceDetail = (q, source) => {
           url: '/everything?q=' + q + '&sources=' + source + '&apiKey=' + API_KEY
         }
       }
+    };
+}
+
+
+export const setIdSource = (idSource) => {
+    return {
+      type: SET_ID_SOURCE,
+      payload: idSource
+    };
+}
+
+
+export const setUrlArticle = (url) => {
+    return {
+      type: SET_URL_ARTICLE,
+      payload: url
     };
 }

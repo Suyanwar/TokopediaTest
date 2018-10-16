@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, Dimensions, ActivityIndicator, Toucha
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
 
-import { fetchSourceDetail } from '../actions';
+import { fetchSourceDetail, setUrlArticle } from '../actions';
 
 const formatData = (data, numColumns) => {  
     let numberOfElementsLastRow = data.length % numColumns;
@@ -22,23 +22,27 @@ class ArticlesScreen extends Component {
         title: 'Articles',
     };
     componentDidMount() {
-        const { id } = this.props.navigation.state.params;
-        this.props.fetchSourceDetail('', id);
+        // const { id } = this.props.navigation.state.params;
+        // this.props.fetchSourceDetail('', id);
+        this.props.fetchSourceDetail('', this.props.idSource);
     }
     renderItem = ({ item, index }) => {
         if (item.empty === true) {
             return <View style={[styles.item, styles.itemInvisible]} />;
         }
         return (
-            <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('WebViewScreen', { url: item.url })}>
+            // <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('WebViewScreen', { url: item.url })}>
+            <TouchableOpacity style={styles.item} onPress={() => {
+                this.props.setUrlArticle(item.url);
+                this.props.navigation.navigate('WebViewScreen');
+            }}>
                 <Text style={styles.itemText}>{item.title}</Text>
             </TouchableOpacity>
         );
     };
 
     _onSearching = (query) => {
-        const { id } = this.props.navigation.state.params;
-        this.props.fetchSourceDetail(query, id);
+        this.props.fetchSourceDetail(query, this.props.idSource);
     }
     
     render() {
@@ -101,12 +105,14 @@ const mapStateToProps = state => {
   return {
     articles: storedArticles,
     loading: state.sourcesReducer.loading,
-    error: state.sourcesReducer.error
+    error: state.sourcesReducer.error,
+    idSource: state.sourcesReducer.idSource
   };
 };
 
 const mapDispatchToProps = {
-    fetchSourceDetail
+    fetchSourceDetail,
+    setUrlArticle
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesScreen);

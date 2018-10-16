@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
-import { fetchSources } from '../actions';
+import { fetchSources, setIdSource } from '../actions';
 
 const formatData = (data, numColumns) => {  
     let numberOfElementsLastRow = data.length % numColumns;
@@ -28,7 +28,11 @@ class SourcesScreen extends Component {
             return <View style={[styles.item, styles.itemInvisible]} />;
         }
         return (
-            <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('ArticlesScreen', { id: item.id })}>
+            // <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('ArticlesScreen', { id: item.id })}>
+            <TouchableOpacity style={styles.item} onPress={() => {
+                this.props.setIdSource(item.id);
+                this.props.navigation.navigate('ArticlesScreen');
+            }}>
                 <Text style={styles.itemText}>{item.name}</Text>
             </TouchableOpacity>
         );
@@ -94,7 +98,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    fetchSources
+    fetchSources,
+    setIdSource
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SourcesScreen);

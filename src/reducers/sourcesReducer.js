@@ -4,14 +4,18 @@ import {
   FETCH_DATA_ERROR, 
   FETCH_DATA_DETAIL, 
   FETCH_DATA_DETAIL_SUCCESS, 
-  FETCH_DATA_DETAIL_ERROR 
+  FETCH_DATA_DETAIL_ERROR,
+  SET_ID_SOURCE,
+  SET_URL_ARTICLE
 } from '../utils/constants';
 
 const initialState = {
     sources: [],
     loading: false,
     error: null,
-    articles: []
+    articles: [],
+    idSource: null,
+    url: null
 };
 
 export default (state = initialState, action) => {
@@ -28,6 +32,10 @@ export default (state = initialState, action) => {
           return { ...state, loading: false, articles: action.payload.data.articles, error: null };
         case FETCH_DATA_DETAIL_ERROR:
           return { ...state, loading: false, error: 'Error while fetching data', articles: [] };
+        case SET_ID_SOURCE:
+          return { ...state, idSource: action.payload };
+        case SET_URL_ARTICLE:
+          return { ...state, url: action.payload };
       default:
         return state;
     }
